@@ -6,7 +6,8 @@ const searchBtn = document.getElementById("searchBtn");
 function statusClass(status) {
   if (status === "ลาออก") return "off";
   if (status === "พักงาน") return "pause";
-  return "";
+  if (status === "ทดลองงาน") return "pause";
+  return ""; // ผ่านโปร บรรจุเป็นพนักงานประจำ
 }
 
 function renderLoading() {
