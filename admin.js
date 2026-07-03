@@ -60,7 +60,8 @@ function fmtDate(d) {
 function statusClass(status) {
   if (status === "ลาออก") return "off";
   if (status === "พักงาน") return "pause";
-  return "";
+  if (status === "ทดลองงาน") return "pause";
+  return ""; // ผ่านโปร บรรจุเป็นพนักงานประจำ
 }
 
 // ------------------------------------------------------------
@@ -170,7 +171,7 @@ function openAdd() {
   ["f_code", "f_fname", "f_lname", "f_position", "f_start", "f_phone", "f_notes", "f_nickname"].forEach(
     (id) => (document.getElementById(id).value = "")
   );
-  document.getElementById("f_status").value = "ทำงานอยู่";
+  document.getElementById("f_status").value = "ทดลองงาน";
   typeSelect.value = "รายเดือน";
   toggleNicknameField();
   overlay.style.display = "flex";
@@ -258,7 +259,9 @@ async function loadReport() {
   typeBreakdown.innerHTML = "";
   leaderboard.innerHTML = "";
 
-  const activeCount = allEmployees.filter((e) => e.status === "ทำงานอยู่").length;
+  const activeCount = allEmployees.filter(
+    (e) => e.status === "ทดลองงาน" || e.status === "ผ่านโปร บรรจุเป็นพนักงานประจำ"
+  ).length;
 
   const since = new Date();
   since.setFullYear(since.getFullYear() - 1);
