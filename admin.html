@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ผู้ดูแลระบบ · สิทธิวันลา</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="shell" id="shell">
+    <div class="pin-gate" id="pinGate">
+      <h2>เข้าสู่ระบบผู้ดูแล</h2>
+      <p>กรอกรหัส PIN เพื่อจัดการข้อมูลพนักงาน</p>
+      <input id="pinInput" type="password" inputmode="numeric" maxlength="8" placeholder="••••" />
+      <button class="btn-primary" id="pinBtn" style="width:100%;">เข้าสู่ระบบ</button>
+      <div id="pinError" class="msg error" style="display:none; padding-top:14px; padding-bottom:0;">รหัส PIN ไม่ถูกต้อง</div>
+    </div>
+
+    <div id="adminArea" style="display:none;">
+      <div class="topbar">
+        <div class="brand">
+          <span class="mark"></span>
+          <div>
+            <h1>ผู้ดูแลระบบ</h1>
+            <div class="sub">HUNHENG · Leave Admin</div>
+          </div>
+        </div>
+        <div class="nav-links">
+          <a href="index.html">หน้าเช็คสิทธิพนักงาน</a>
+        </div>
+      </div>
+
+      <div class="tabs">
+        <button class="tab-btn active" data-tab="employees">รายชื่อพนักงาน</button>
+        <button class="tab-btn" data-tab="report">สรุป &amp; รายงาน</button>
+      </div>
+
+      <div id="tab-employees">
+        <div class="search-row" style="margin-bottom:18px;">
+          <input id="empSearch" placeholder="ค้นหาชื่อ / รหัสพนักงาน / ตำแหน่ง" style="flex:1;" />
+          <select id="typeFilter">
+            <option value="">ทุกประเภท</option>
+            <option value="รายเดือน">รายเดือน</option>
+            <option value="เหมารายชิ้น">เหมารายชิ้น</option>
+          </select>
+          <button class="btn-primary" id="addBtn">+ เพิ่มพนักงาน</button>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>รหัส</th>
+                <th>ชื่อ-นามสกุล</th>
+                <th>ประเภท</th>
+                <th>ตำแหน่ง</th>
+                <th>วันที่เข้างาน</th>
+                <th>อายุงาน</th>
+                <th>สถานะ</th>
+                <th>ลากิจ</th>
+                <th>ลาป่วย</th>
+                <th>ลาพักร้อน</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="empTableBody">
+              <tr><td colspan="11" class="msg">กำลังโหลดข้อมูล...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div id="tab-report" style="display:none;">
+        <div class="stat-grid" id="statGrid"></div>
+
+        <div class="section-title"><span>สัดส่วนวันลาแต่ละประเภท (12 เดือนล่าสุด)</span><span class="dash"></span></div>
+        <div class="table-wrap" style="padding:20px;" id="typeBreakdown"></div>
+
+        <div class="section-title"><span>อันดับพนักงานลามากที่สุด (12 เดือนล่าสุด)</span><span class="dash"></span></div>
+        <div class="table-wrap" style="padding:16px 20px;" id="leaderboard"></div>
+      </div>
+    </div>
+
+    <footer class="foot">ข้อมูลซิงค์กับระบบใบลาแบบเรียลไทม์</footer>
+  </div>
+
+  <!-- add / edit employee modal -->
+  <div class="overlay" id="modalOverlay" style="display:none;">
+    <div class="modal">
+      <h3 id="modalTitle">เพิ่มพนักงาน</h3>
+      <div class="form-grid">
+        <input type="hidden" id="editId" />
+        <div>
+          <label>รหัสพนักงาน</label>
+          <input id="f_code" placeholder="เช่น EMP001" />
+        </div>
+        <div>
+          <label>ชื่อ</label>
+          <input id="f_fname" />
+        </div>
+        <div>
+          <label>นามสกุล</label>
+          <input id="f_lname" />
+        </div>
+        <div>
+          <label>ตำแหน่ง</label>
+          <input id="f_position" />
+        </div>
+        <div>
+          <label>วันที่เข้าทำงาน</label>
+          <input id="f_start" type="date" />
+        </div>
+        <div>
+          <label>สถานะพนักงาน</label>
+          <select id="f_status">
+            <option>ทำงานอยู่</option>
+            <option>ลาออก</option>
+            <option>พักงาน</option>
+          </select>
+        </div>
+        <div>
+          <label>ประเภทพนักงาน</label>
+          <select id="f_type">
+            <option value="รายเดือน">รายเดือน (มีสิทธิวันลา)</option>
+            <option value="เหมารายชิ้น">เหมารายชิ้น (ช่างเย็บผ้า)</option>
+          </select>
+        </div>
+        <div id="nicknameField" style="display:none;">
+          <label>ชื่อเล่นในระบบเกรดช่างเย็บผ้า</label>
+          <input id="f_nickname" placeholder="ต้องตรงกับชื่อในระบบเกรดเป๊ะๆ เช่น รส, พลอย, แมว" />
+        </div>
+        <div>
+          <label>เบอร์โทร</label>
+          <input id="f_phone" />
+        </div>
+        <div>
+          <label>หมายเหตุ</label>
+          <input id="f_notes" />
+        </div>
+      </div>
+      <div class="form-actions">
+        <button class="btn-ghost" id="cancelModal">ยกเลิก</button>
+        <button class="btn-primary" id="saveModal">บันทึก</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="shared.js"></script>
+  <script src="admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>เช็คสิทธิ / ข้อมูลพนักงาน</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="shell">
+    <div class="topbar">
+      <div class="brand">
+        <span class="mark"></span>
+        <div>
+          <h1>เช็คข้อมูลพนักงาน</h1>
+          <div class="sub">HUNHENG · Staff Lookup</div>
+        </div>
+      </div>
+      <div class="nav-links">
+        <a href="admin.html">สำหรับผู้ดูแล</a>
+      </div>
+    </div>
+
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="monthly">1 · พนักงานประจำ</button>
+      <button class="tab-btn" data-tab="tailor">2 · ช่างเย็บผ้าเหมารายชิ้น</button>
+    </div>
+
+    <!-- ============ หมวด 1: พนักงานประจำ ============ -->
+    <div id="panel-monthly">
+      <div class="search-card">
+        <h2>ค้นหาด้วยชื่อ-นามสกุล</h2>
+        <p class="hint">กรอกชื่อและนามสกุลของคุณให้ตรงกับที่ลงทะเบียนไว้ แล้วกดค้นหา</p>
+        <div class="search-row">
+          <input id="fname" placeholder="ชื่อ" autocomplete="off" />
+          <input id="lname" placeholder="นามสกุล" autocomplete="off" />
+          <button class="btn-primary" id="searchBtn">ค้นหา</button>
+        </div>
+      </div>
+      <div id="result"></div>
+    </div>
+
+    <!-- ============ หมวด 2: ช่างเย็บผ้าเหมารายชิ้น ============ -->
+    <div id="panel-tailor" style="display:none;">
+      <div class="search-card">
+        <h2>ค้นหาด้วยชื่อ-นามสกุล</h2>
+        <p class="hint">สำหรับช่างเย็บผ้าเหมารายชิ้น ดูข้อมูลการส่งงานรายสัปดาห์</p>
+        <div class="search-row">
+          <input id="t_fname" placeholder="ชื่อ" autocomplete="off" />
+          <input id="t_lname" placeholder="นามสกุล" autocomplete="off" />
+          <button class="btn-primary" id="t_searchBtn">ค้นหา</button>
+        </div>
+      </div>
+      <div id="t_result"></div>
+    </div>
+
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="shared.js"></script>
+  <script src="index.js"></script>
+</body>
+</html>
