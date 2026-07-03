@@ -10,8 +10,8 @@ create table if not exists employees (
   last_name text not null,
   position text,
   start_date date not null,
-  status text not null default 'ทำงานอยู่'
-    check (status in ('ทำงานอยู่', 'ลาออก', 'พักงาน')),
+  status text not null default 'ทดลองงาน'
+    check (status in ('ทดลองงาน', 'ผ่านโปร บรรจุเป็นพนักงานประจำ', 'ลาออก', 'พักงาน')),
   phone text,
   notes text,
   employee_type text not null default 'รายเดือน'
